@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Chen - Full-Stack Developer | Glass Portfolio</title>
+    <meta name="description" content="Advanced full-stack developer specializing in glass morphism design, React, Node.js, and cutting-edge web technologies.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    
+    <style>
+        :root {
+            --glass-blue: rgba(59, 130, 246, 0.1);
+            --glass-teal: rgba(20, 184, 166, 0.15);
+            --glass-purple: rgba(139, 92, 246, 0.1);
+            --glass-white: rgba(255, 255, 255, 0.95);
+            --glass-shadow: rgba(0, 0, 0, 0.2);
+            --backdrop-blur: blur(20px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: var(--glass-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Glass Header */
+        .glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--glass-white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--glass-blue);
+            color: #3b82f6;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem 2rem;
+            z-index: 10;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            z-index: 20;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #3b82f6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .typewriter-text {
+            color: #3b82f6;
+            font-weight: 600;
+            border-right: 2px solid #3b82f6;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: #3b82f6; }
+            51%, 100% { border-color: transparent; }
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .glass-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.1);
+            border: var(--glass-border);
+            color: var(--glass-white);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-btn.primary {
+            background: var(--glass-blue);
+            color: white;
+        }
+
+        .glass-btn.primary:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: var(--backdrop-blur);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .skill-card {
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #14b8a6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--glass-white);
+        }
+
+        .skill-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .skill-progress {
+            margin-top: 1.5rem;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #14b8a6);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 2s ease;
+        }
+
+        .skill-card:hover .skill-progress-bar {
+            width: var(--skill-level, 90%);
+        }
+
+        /* Projects Preview */
+        .projects-preview {
+            padding: 6rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--glass-white);
+        }
+
+        .project-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: var(--glass-border);
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--glass-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-avatar {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        body.loaded .hero-content > * {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        body.loaded .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+        body.loaded .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+        body.loaded .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+        body.loaded .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+        body.loaded .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Glass Header -->
+    <header class="glass-header">
+        <nav class="nav-container">
+            <div class="logo">AC</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Alex Chen</h1>
+                <p class="hero-subtitle">
+                    <span class="typewriter-text">Full-Stack Developer</span>
+                </p>
+                <p class="hero-description">
+                    Passionate about creating exceptional digital experiences through cutting-edge technology 
+                    and innovative design. Specializing in glass morphism interfaces, React ecosystems, 
+                    and scalable web applications.
+                </p>
+                <div class="hero-actions">
+                    <a href="projects.html" class="glass-btn primary">
+                        View Projects
+                        <span>→</span>
+                    </a>
+                    <a href="contact.html" class="glass-btn">
+                        Get In Touch
+                        <span>✉</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="resources/profile-avatar.png" alt="Alex Chen" class="hero-avatar">
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <h2 class="section-title animate-on-scroll">Technical Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-card glass-card animate-on-scroll" style="--skill-level: 90%;">
+                <div class="skill-icon">⚛</div>
+                <h3 class="skill-title">Frontend Development</h3>
+                <p class="skill-description">
+                    Expert in React, Vue.js, and modern JavaScript frameworks. Creating responsive, 
+                    accessible, and performant user interfaces with cutting-edge technologies.
+                </p>
+                <div class="skill-progress">
+                    <div class="skill-progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="skill-card glass-card animate-on-scroll" style="--skill-level: 85%;">
+                <div class="skill-icon">🔧</div>
+                <h3 class="skill-title">Backend Architecture</h3>
+                <p class="skill-description">
+                    Building scalable server-side applications with Node.js, Python, and cloud technologies. 
+                    Designing robust APIs and database systems.
+                </p>
+                <div class="skill-progress">
+                    <div class="skill-progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="skill-card glass-card animate-on-scroll" style="--skill-level: 80%;">
+                <div class="skill-icon">🎨</div>
+                <h3 class="skill-title">UI/UX Design</h3>
+                <p class="skill-description">
+                    Crafting beautiful, intuitive user experiences with modern design principles. 
+                    Specializing in glass morphism and contemporary design trends.
+                </p>
+                <div class="skill-progress">
+                    <div class="skill-progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="skill-card glass-card animate-on-scroll" style="--skill-level: 75%;">
+                <div class="skill-icon">☁</div>
+                <h3 class="skill-title">Cloud & DevOps</h3>
+                <p class="skill-description">
+                    Deploying and managing applications on AWS, Docker, and modern CI/CD pipelines. 
+                    Ensuring scalability, security, and performance.
+                </p>
+                <div class="skill-progress">
+                    <div class="skill-progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Preview -->
+    <section class="projects-preview">
+        <div class="projects-container">
+            <h2 class="section-title animate-on-scroll">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card glass-card animate-on-scroll" data-project="ecommerce">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.creative-tim.com/5b5d2852d55188872035257e33dd5de2af0130de.png" alt="E-Commerce Platform" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">
+                            Full-stack e-commerce solution with React, Node.js, and Stripe integration. 
+                            Features include user authentication, payment processing, and admin dashboard.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Stripe</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card glass-card animate-on-scroll" data-project="taskmanager">
+                    <img src="https://kimi-web-img.moonshot.cn/img/res.cloudinary.com/6fe0ac8fe926fe895676565c1ddf39426720194f.png" alt="Task Management App" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Task Management App</h3>
+                        <p class="project-description">
+                            Collaborative task management application with real-time updates, 
+                            team collaboration features, and advanced project tracking capabilities.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Tailwind</span>
+                            <span class="tech-tag">PWA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card glass-card animate-on-scroll" data-project="dashboard">
+                    <img src="https://kimi-web-img.moonshot.cn/img/cms.pixso.cn/7e262bbd9298ee2c94fa872ee2718b5f3e5463a8.png" alt="Analytics Dashboard" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Analytics Dashboard</h3>
+                        <p class="project-description">
+                            Comprehensive data visualization dashboard with real-time analytics, 
+                            interactive charts, and business intelligence features.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">WebSocket</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="contact-cta">
+        <h2 class="cta-title animate-on-scroll">Let's Build Something Amazing</h2>
+        <p class="cta-description animate-on-scroll">
+            Ready to bring your ideas to life? I'm always interested in challenging projects 
+            and innovative solutions. Let's discuss how we can create something extraordinary together.
+        </p>
+        <div class="hero-actions animate-on-scroll">
+            <a href="contact.html" class="glass-btn primary">
+                Start a Project
+                <span>🚀</span>
+            </a>
+            <a href="about.html" class="glass-btn">
+                View Resume
+                <span>📄</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-link" title="GitHub">📱</a>
+                <a href="#" class="social-link" title="LinkedIn">💼</a>
+                <a href="#" class="social-link" title="Twitter">🐦</a>
+                <a href="#" class="social-link" title="Email">✉</a>
+            </div>
+            <p>&copy; 2024 Alex Chen. Crafted with passion and precision.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+</body>
+</html>

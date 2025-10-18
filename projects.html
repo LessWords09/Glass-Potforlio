@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Alex Chen | Glass Portfolio</title>
+    <meta name="description" content="Explore my portfolio of innovative web applications, from e-commerce platforms to data visualization dashboards.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    
+    <style>
+        :root {
+            --glass-blue: rgba(59, 130, 246, 0.1);
+            --glass-teal: rgba(20, 184, 166, 0.15);
+            --glass-purple: rgba(139, 92, 246, 0.1);
+            --glass-white: rgba(255, 255, 255, 0.95);
+            --glass-shadow: rgba(0, 0, 0, 0.2);
+            --backdrop-blur: blur(20px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: var(--glass-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Glass Header */
+        .glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--glass-white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--glass-blue);
+            color: #3b82f6;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #3b82f6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        /* Timeline Interface */
+        .timeline-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .timeline-container {
+            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #14b8a6);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-nodes {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: -2rem;
+        }
+
+        .timeline-node {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.1);
+            border: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .timeline-node:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+        }
+
+        .timeline-node.active {
+            background: var(--glass-blue);
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .node-year {
+            font-weight: 600;
+            color: #3b82f6;
+            font-size: 0.875rem;
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .timeline-label {
+            text-align: center;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        /* Project Grid */
+        .projects-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .projects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: var(--glass-border);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--glass-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--glass-blue);
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .search-box {
+            padding: 0.75rem 1rem;
+            border: var(--glass-border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--glass-white);
+            backdrop-filter: var(--backdrop-blur);
+            width: 250px;
+            font-size: 0.875rem;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-card.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--glass-white);
+        }
+
+        .project-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .project-year {
+            background: var(--glass-blue);
+            color: #3b82f6;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .project-type {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.5rem 1rem;
+            border: var(--glass-border);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--glass-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .project-link.primary {
+            background: var(--glass-blue);
+            color: #3b82f6;
+        }
+
+        .project-link.primary:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Project Modal */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: var(--backdrop-blur);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .project-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: var(--backdrop-blur);
+            border: var(--glass-border);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--glass-white);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--glass-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .modal-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .modal-tech-stack {
+            margin-bottom: 2rem;
+        }
+
+        .modal-tech-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--glass-white);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .timeline-nodes {
+                margin-top: -1.5rem;
+            }
+            
+            .timeline-node {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .node-year {
+                font-size: 0.75rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .filter-controls {
+                justify-content: center;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Glass Header -->
+    <header class="glass-header">
+        <nav class="nav-container">
+            <div class="logo">AC</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1 class="page-title animate-on-scroll">My Projects</h1>
+        <p class="page-subtitle animate-on-scroll">
+            A collection of innovative web applications and digital experiences I've crafted with passion and precision. 
+            Each project represents a unique challenge and opportunity to push the boundaries of modern web development.
+        </p>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="timeline-container animate-on-scroll">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 1.5rem; font-weight: 600;">Project Timeline</h2>
+            <div class="timeline-track">
+                <div class="timeline-progress"></div>
+            </div>
+            <div class="timeline-nodes">
+                <div class="timeline-node active" data-year="2024">
+                    <span class="node-year">2024</span>
+                </div>
+                <div class="timeline-node" data-year="2023">
+                    <span class="node-year">2023</span>
+                </div>
+                <div class="timeline-node" data-year="2022">
+                    <span class="node-year">2022</span>
+                </div>
+                <div class="timeline-node" data-year="2021">
+                    <span class="node-year">2021</span>
+                </div>
+                <div class="timeline-node" data-year="2020">
+                    <span class="node-year">2020</span>
+                </div>
+            </div>
+            <div class="timeline-labels">
+                <div class="timeline-label">Latest</div>
+                <div class="timeline-label">Advanced</div>
+                <div class="timeline-label">Growth</div>
+                <div class="timeline-label">Learning</div>
+                <div class="timeline-label">Foundation</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="projects-header animate-on-scroll">
+            <h2 class="section-title">All Projects</h2>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <input type="text" class="search-box" placeholder="Search projects..." id="project-search">
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile</button>
+                    <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects-grid" id="projects-grid">
+            <!-- Project 1: E-Commerce Platform -->
+            <div class="project-card animate-on-scroll" data-category="web fullstack" data-year="2024" data-project="ecommerce">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.creative-tim.com/5b5d2852d55188872035257e33dd5de2af0130de.png" alt="E-Commerce Platform" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2024</span>
+                        <span class="project-type">E-Commerce</span>
+                    </div>
+                    <h3 class="project-title">Modern E-Commerce Platform</h3>
+                    <p class="project-description">
+                        A full-featured e-commerce platform with modern design, secure payments, inventory management, 
+                        and comprehensive admin dashboard. Built with React and Node.js for maximum performance and scalability.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Stripe</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="live">Live Demo</a>
+                        <a href="#" class="project-link" data-action="code">Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: Task Management App -->
+            <div class="project-card animate-on-scroll" data-category="web fullstack" data-year="2024" data-project="taskmanager">
+                <img src="https://kimi-web-img.moonshot.cn/img/res.cloudinary.com/6fe0ac8fe926fe895676565c1ddf39426720194f.png" alt="Task Management App" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2024</span>
+                        <span class="project-type">Productivity</span>
+                    </div>
+                    <h3 class="project-title">Collaborative Task Manager</h3>
+                    <p class="project-description">
+                        Real-time collaborative task management application with team features, project tracking, 
+                        and advanced analytics. Includes offline support and progressive web app capabilities.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Vue.js</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">Tailwind</span>
+                        <span class="tech-tag">PWA</span>
+                        <span class="tech-tag">WebSocket</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="live">Live Demo</a>
+                        <a href="#" class="project-link" data-action="code">Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Mobile Banking App -->
+            <div class="project-card animate-on-scroll" data-category="mobile" data-year="2023" data-project="banking">
+                <img src="https://kimi-web-img.moonshot.cn/img/ugem-production.s3.amazonaws.com/ed5b08446d1d9098d0fbf972f6e0115cdd8e22c9.png" alt="Mobile Banking App" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2023</span>
+                        <span class="project-type">FinTech</span>
+                    </div>
+                    <h3 class="project-title">Mobile Banking Solution</h3>
+                    <p class="project-description">
+                        Secure mobile banking application with biometric authentication, real-time transactions, 
+                        and comprehensive financial management features. Built with React Native and TypeScript.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="demo">App Store</a>
+                        <a href="#" class="project-link" data-action="case-study">Case Study</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Analytics Dashboard -->
+            <div class="project-card animate-on-scroll" data-category="web" data-year="2023" data-project="dashboard">
+                <img src="https://kimi-web-img.moonshot.cn/img/cms.pixso.cn/7e262bbd9298ee2c94fa872ee2718b5f3e5463a8.png" alt="Analytics Dashboard" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2023</span>
+                        <span class="project-type">Data Visualization</span>
+                    </div>
+                    <h3 class="project-title">Business Intelligence Dashboard</h3>
+                    <p class="project-description">
+                        Comprehensive analytics dashboard with real-time data visualization, interactive charts, 
+                        and advanced reporting features. Built with D3.js and Python for data processing.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="live">Live Demo</a>
+                        <a href="#" class="project-link" data-action="code">Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5: AI Chatbot Interface -->
+            <div class="project-card animate-on-scroll" data-category="web fullstack" data-year="2022" data-project="chatbot">
+                <img src="https://kimi-web-img.moonshot.cn/img/cdn.dribbble.com/a03989e213290424c759d5814ae114e87c300f56.png" alt="AI Chatbot Interface" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2022</span>
+                        <span class="project-type">AI/ML</span>
+                    </div>
+                    <h3 class="project-title">AI-Powered Chatbot Platform</h3>
+                    <p class="project-description">
+                        Intelligent conversational AI platform with natural language processing, 
+                        multi-turn conversations, and integration with various messaging platforms.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">OpenAI</span>
+                        <span class="tech-tag">Prisma</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="live">Live Demo</a>
+                        <a href="#" class="project-link" data-action="article">Article</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6: Portfolio Generator -->
+            <div class="project-card animate-on-scroll" data-category="web" data-year="2022" data-project="portfolio">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.primepsd.com/9c5bad791f3d7e0766f6d4dd2378fa5473b813f1.png" alt="Portfolio Generator" class="project-image">
+                <div class="project-content">
+                    <div class="project-meta">
+                        <span class="project-year">2022</span>
+                        <span class="project-type">Developer Tool</span>
+                    </div>
+                    <h3 class="project-title">Advanced Portfolio Generator</h3>
+                    <p class="project-description">
+                        Static site generator specifically designed for creating stunning developer portfolios 
+                        with glass morphism effects, animations, and modern web technologies.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Tailwind</span>
+                        <span class="tech-tag">Vercel</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link primary" data-action="live">Live Demo</a>
+                        <a href="#" class="project-link" data-action="template">Template</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div class="project-modal" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Project Title</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-link" title="GitHub">📱</a>
+                <a href="#" class="social-link" title="LinkedIn">💼</a>
+                <a href="#" class="social-link" title="Twitter">🐦</a>
+                <a href="#" class="social-link" title="Email">✉</a>
+            </div>
+            <p>&copy; 2024 Alex Chen. Crafted with passion and precision.</p>
+        </div>
+    </footer>
+
+    <style>
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: var(--glass-border);
+            backdrop-filter: var(--backdrop-blur);
+            background: rgba(15, 23, 42, 0.8);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--glass-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <!-- Main JavaScript -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Projects page specific functionality
+        class ProjectsManager {
+            constructor() {
+                this.currentFilter = 'all';
+                this.currentYear = '2024';
+                this.projects = document.querySelectorAll('.project-card');
+                this.init();
+            }
+
+            init() {
+                this.initTimeline();
+                this.initFilters();
+                this.initSearch();
+                this.initModal();
+                this.animateProgress();
+            }
+
+            initTimeline() {
+                const timelineNodes = document.querySelectorAll('.timeline-node');
+                
+                timelineNodes.forEach(node => {
+                    node.addEventListener('click', () => {
+                        // Remove active class from all nodes
+                        timelineNodes.forEach(n => n.classList.remove('active'));
+                        // Add active class to clicked node
+                        node.classList.add('active');
+                        
+                        const year = node.dataset.year;
+                        this.currentYear = year;
+                        this.filterByYear(year);
+                        this.animateProgress();
+                    });
+                });
+            }
+
+            animateProgress() {
+                const progress = document.querySelector('.timeline-progress');
+                const nodes = document.querySelectorAll('.timeline-node');
+                const activeIndex = Array.from(nodes).findIndex(node => node.classList.contains('active'));
+                const progressPercent = ((activeIndex + 1) / nodes.length) * 100;
+                
+                anime({
+                    targets: progress,
+                    width: progressPercent + '%',
+                    duration: 800,
+                    easing: 'easeInOutQuart'
+                });
+            }
+
+            filterByYear(year) {
+                this.projects.forEach(project => {
+                    const projectYear = project.dataset.year;
+                    if (projectYear === year || year === '2024') {
+                        project.classList.remove('hidden');
+                    } else {
+                        project.classList.add('hidden');
+                    }
+                });
+            }
+
+            initFilters() {
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active class from all buttons
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        // Add active class to clicked button
+                        btn.classList.add('active');
+                        
+                        const filter = btn.dataset.filter;
+                        this.currentFilter = filter;
+                        this.filterProjects();
+                    });
+                });
+            }
+
+            filterProjects() {
+                this.projects.forEach(project => {
+                    const categories = project.dataset.category.split(' ');
+                    const year = project.dataset.year;
+                    
+                    let showProject = true;
+                    
+                    // Filter by category
+                    if (this.currentFilter !== 'all' && !categories.includes(this.currentFilter)) {
+                        showProject = false;
+                    }
+                    
+                    // Filter by year (timeline)
+                    if (this.currentYear !== '2024' && year !== this.currentYear) {
+                        showProject = false;
+                    }
+                    
+                    if (showProject) {
+                        project.classList.remove('hidden');
+                        anime({
+                            targets: project,
+                            opacity: [0, 1],
+                            scale: [0.8, 1],
+                            duration: 500,
+                            easing: 'easeOutQuart',
+                            delay: Math.random() * 200
+                        });
+                    } else {
+                        project.classList.add('hidden');
+                    }
+                });
+            }
+
+            initSearch() {
+                const searchBox = document.getElementById('project-search');
+                
+                searchBox.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    
+                    this.projects.forEach(project => {
+                        const title = project.querySelector('.project-title').textContent.toLowerCase();
+                        const description = project.querySelector('.project-description').textContent.toLowerCase();
+                        const techTags = Array.from(project.querySelectorAll('.tech-tag')).map(tag => tag.textContent.toLowerCase());
+                        
+                        const matchesSearch = title.includes(searchTerm) || 
+                                            description.includes(searchTerm) || 
+                                            techTags.some(tag => tag.includes(searchTerm));
+                        
+                        if (matchesSearch) {
+                            project.classList.remove('hidden');
+                        } else {
+                            project.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            initModal() {
+                const modal = document.getElementById('project-modal');
+                const closeBtn = document.getElementById('modal-close');
+                
+                // Open modal when project card is clicked
+                this.projects.forEach(project => {
+                    project.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('project-link')) return;
+                        
+                        const projectId = project.dataset.project;
+                        this.openModal(projectId);
+                    });
+                });
+                
+                // Close modal
+                closeBtn.addEventListener('click', () => this.closeModal());
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) this.closeModal();
+                });
+                
+                // Close on escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') this.closeModal();
+                });
+            }
+
+            openModal(projectId) {
+                const modal = document.getElementById('project-modal');
+                const modalTitle = document.getElementById('modal-title');
+                const modalBody = document.getElementById('modal-body');
+                
+                // Get project data
+                const projectData = this.getProjectData(projectId);
+                
+                modalTitle.textContent = projectData.title;
+                modalBody.innerHTML = this.generateModalContent(projectData);
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Animate modal in
+                anime({
+                    targets: modal,
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutQuart'
+                });
+            }
+
+            closeModal() {
+                const modal = document.getElementById('project-modal');
+                
+                anime({
+                    targets: modal,
+                    opacity: [1, 0],
+                    duration: 300,
+                    easing: 'easeOutQuart',
+                    complete: () => {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            getProjectData(projectId) {
+                const projects = {
+                    ecommerce: {
+                        title: 'Modern E-Commerce Platform',
+                        image: 'https://kimi-web-img.moonshot.cn/img/www.creative-tim.com/5b5d2852d55188872035257e33dd5de2af0130de.png',
+                        description: 'A comprehensive e-commerce solution built with modern technologies and best practices. This platform features a responsive React frontend, scalable Node.js backend, secure payment processing with Stripe, and a comprehensive admin dashboard for inventory management, order tracking, and customer analytics. The application includes advanced features like real-time inventory updates, multi-currency support, and integrated shipping calculations.',
+                        tech: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Redis', 'Docker', 'AWS'],
+                        features: ['Secure Payment Processing', 'Real-time Inventory', 'Admin Dashboard', 'Multi-currency Support', 'Mobile Responsive', 'Performance Optimized']
+                    },
+                    taskmanager: {
+                        title: 'Collaborative Task Manager',
+                        image: 'https://kimi-web-img.moonshot.cn/img/res.cloudinary.com/6fe0ac8fe926fe895676565c1ddf39426720194f.png',
+                        description: 'A real-time collaborative task management application designed for modern teams. Features include drag-and-drop task organization, team collaboration tools, advanced project tracking, and comprehensive analytics. The application supports offline functionality with automatic synchronization, real-time updates via WebSocket connections, and progressive web app capabilities for mobile devices.',
+                        tech: ['Vue.js', 'Firebase', 'Tailwind CSS', 'PWA', 'WebSocket', 'Chart.js'],
+                        features: ['Real-time Collaboration', 'Offline Support', 'Team Analytics', 'Drag & Drop', 'Mobile PWA', 'Advanced Filtering']
+                    }
+                };
+                
+                return projects[projectId] || projects.ecommerce;
+            }
+
+            generateModalContent(data) {
+                return `
+                    <img src="${data.image}" alt="${data.title}" class="modal-image">
+                    <div class="modal-description">
+                        ${data.description}
+                    </div>
+                    <div class="modal-tech-stack">
+                        <h3 class="modal-tech-title">Technologies Used</h3>
+                        <div class="project-tech">
+                            ${data.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="modal-tech-stack">
+                        <h3 class="modal-tech-title">Key Features</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+                            ${data.features.map(feature => `
+                                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                                    <span style="color: #3b82f6;">✓</span>
+                                    <span style="font-size: 0.875rem;">${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize projects manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProjectsManager();
+        });
+    </script>
+</body>
+</html>
